@@ -12,11 +12,11 @@ app.use(express.urlencoded({extended:false}));
 app.use((req,res,next)=>{
     console.log("hello from middleware 1");
     fs.appendFile('./log.txt',`\n${Date.now()}:${req.ip}:${req.method} :${req.path}`,(err,data)=>{
-        next();
+        
     })
-    // return res.json({msg:"hello from middlware 1"});
-    req.myUsername="deepakKumar.dev";
+    req.myUsername = "deepakKumar.dev";
     next();
+    // return res.json({msg:"hello from middlware 1"});
     
     
 })
@@ -51,18 +51,42 @@ app.get('/api/users',(req,res)=>{
     return res.json(users);
 })
 
-app.get('/api/users/:id',(req,res)=>{
-    const id = Number(req.params.id);
-    const user =users.find((user)=>user.id===id);
-    return res.send(user);
+
+
+app.post('/api/users',(req,res)=>{
+    const body = req.body;
+    // console.log("Body" ,body);
+    if(!body || !body.first_name|| !body.last_name||!body.email ||!body.gender || !body.job_title){
+        return res.status(401).json({msg:"all fields are req"});
+    }
+    users.push({id:users.length+1,...body});
+    fs.writeFile('./MOCK_DATA.json',JSON.stringify(users),(err,data)=>{
+        return res.status(201).json({status:" sucess",id:users.length});
+    });
 })
 
+
+// REST API's
 app
     .route("/api/users/:id")
+
+    .get((req,res)=>{
+        const id = Number(req.params.id);
+        const user =users.find((user)=>user.id===id);
+        if(!user){
+            return res.status(404).json({msg:"userID not found"});
+        }
+        return res.send(user);
+
+    })
+
+
+
     .put((req,res)=>{
         //create a new user with id
         res.json({status:"pending"});
     })
+
 
     .patch((req,res)=>{
     // edit user with id 
@@ -81,6 +105,7 @@ app
         });
      })
     })
+
 
     .delete((req,res)=>{
         const id = Number(req.params.id);
@@ -101,14 +126,7 @@ app
       
     })
 
-    app.post('/api/users',(req,res)=>{
-        const body = req.body;
-        // console.log("Body" ,body);
-        users.push({id:users.length+1,...body});
-        fs.writeFile('./MOCK_DATA.json',JSON.stringify(users),(err,data)=>{
-            return res.json({status:" sucess",id:users.length});
-        });
-    });
+   
     
 
 

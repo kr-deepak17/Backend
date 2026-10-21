@@ -104,7 +104,7 @@ app
         users.push({id:users.length+1,...body});
         fs.writeFile('./MOCK_DATA.json',JSON.stringify(users),(err,data)=>{
             return res.json({status:" sucess",id:users.length});
-        })
+        });
     });
     
 

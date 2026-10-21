@@ -95,7 +95,7 @@ app
      const user = users.find((user)=>user.id===id);
      if(!user){
         return res.status(404).json({status :"user not found"});
-     }
+     };
      Object.assign(user,body);
      fs.writeFile('./MOCK_DATA.json',JSON.stringify(users),(err)=>{
           return res.json({

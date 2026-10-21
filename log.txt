@@ -1,8 +1,0 @@
-1792590812491:GET :/api/users
-1792590879103:GET :/api/users
-1792590892669:GET :/api/users
-1792590896382:GET :/api/users
-1792590901093:POST :/api/users
-1792590952283:::1,POST :/api/users
-1792590978015:::1:POST :/api/users
-1792590982228:::1:GET :/api/users

@@ -57,7 +57,7 @@ app.use((req,res,next)=>{
         
     })
     req.myUsername = "deepakKumar.dev";
-    next();
+    next()
     // return res.json({msg:"hello from middlware 1"});
     
     

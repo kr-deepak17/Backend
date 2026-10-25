@@ -1,0 +1,4 @@
+schema- define the structure
+    scheme - model
+    using this model we do CRUD operatios
+    

@@ -167,7 +167,7 @@ app
 
 
     .delete(async(req,res)=>{
-        await User.findByIdAndDelete(req.params.id)
+        await User.findByIdAndDelete(req.params.id);
         res.send({msg:"user is deleted"});
 
         

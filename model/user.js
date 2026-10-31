@@ -1,4 +1,4 @@
-const mongoose =require ('mongoose');
+
 
 //schema
 const userschema = new mongoose.Schema({
@@ -23,5 +23,5 @@ const userschema = new mongoose.Schema({
     
 },{timestamps:true});
 const User = mongoose.model('user',userschema);
-module.exports=User
+module.exports={User,}
 

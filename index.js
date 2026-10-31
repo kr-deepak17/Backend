@@ -1,73 +1,23 @@
 const express = require('express');
+const fs = require('fs');
 const users = require("./MOCK_DATA.json");
 const app= express();
 
-// const mongoose =require ('mongoose');
-
-const fs = require('fs');
-
-const { stringify } = require('querystring');
-const { json } = require('stream/consumers');
-const { timeStamp } = require('console');
 const PORT=8000;
 
-//connection
-mongoose.connect('mongodb://127.0.0.1:27017/youtube-app-1')
-.then(()=>console.log("MongoDb connected"))
-.catch((err)=>{
-    console.log("Mongo error",err);
 
-})
+// connections
+const{connectMongoDb}=require("./connection");
 
+// middlware plugins
+const {logReqres} =require("./middlewares");
 
-//schema
-// const userschema = new mongoose.Schema({
-//     firstName:{
-//         type:String,
-//         required:true,
-//     },
-//     lastName:{
-//         type:String,
-//         required:false,
-//     },
-//     email:{
-//         type:String,
-//         required:true,
-//         unique:true,
-
-//     },
-//     gender:{
-//         type:String,
-//         required:true,
-//     },
-    
-// },{timestamps:true});
-const User = mongoose.model('user',userschema);
+//routes
+const userRouter = require("./routes/user");  
 
 
-
-
-//middleware -Plugin
-app.use(express.urlencoded({extended:false}));
-app.use(express.json({extended:false}));
-
-app.use((req,res,next)=>{
-    console.log("hello from middleware 1");
-    fs.appendFile('./log.txt',`\n${Date.now()}:${req.ip}:${req.method} :${req.path}`,(err,data)=>{
-        
-    })
-    req.myUsername = "deepakKumar.dev";
-    next()
-    // return res.json({msg:"hello from middlware 1"});
-    
-    
-})
-
-app.use((req,res,next)=>{
-    console.log("hello from middleware 2",req.myUsername);
-    next();
-    
-})
+// routes
+app.use('/user',userRouter);
 
 app.listen(PORT,()=>{
      console.log("server started at port 8000"); 
